@@ -26,8 +26,7 @@ const removeItem = (index) => {
 
 // Get kid-friendly rating label
 const getRatingLabel = (rating) => {
-  if (rating <= 3) return "🍌 Meh, it's okay"
-  if (rating <= 5) return "🍌🍌 Yeah, I'd like this"
+  if (rating <= 4) return "🍌🍌 Yeah, I'd like this"
   if (rating <= 7) return '🍌🍌🍌 Really want this!'
   if (rating <= 9) return '🍌🍌 REALLY REALLY want this! 🍌🍌'
   return '🍌🍌🍌 I HAVE TO HAVE THIS THING!! 🍌🍌🍌'
@@ -168,7 +167,11 @@ const submitWishlist = async () => {
         ❌ Oops! Something went wrong. Please try again.
       </div>
     </form>
-    <p class="fine-print"><sup>*</sup>Submissions will be accepted until December 15th, 2025. Extreme interest in an item does not insure receipt. Item prices will factor into the quantity of gifts. Limit 10 items per submission. Multiple submissions encouraged. See stores for details. jk.</p>
+    <p class="fine-print">
+      <sup>*</sup>Submissions will be accepted until December 15th, 2025. Extreme interest in an
+      item does not insure receipt. Item prices will factor into the quantity of gifts. Limit 10
+      items per submission. Multiple submissions encouraged. See stores for details. jk.
+    </p>
   </div>
 </template>
 
@@ -493,10 +496,99 @@ const submitWishlist = async () => {
   color: #721c24;
 }
 
-.fine-print, .altmans {
+.fine-print,
+.altmans {
   margin-top: 1.5rem;
   font-size: 0.85rem;
   color: #666;
   text-align: center;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 640px) {
+  .wishlist-form {
+    padding: 0.2rem;
+  }
+
+  .form-header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .smithmas-logo {
+    margin: 0 0 1rem 0;
+    width: 50px;
+  }
+
+  .form-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .which-smith {
+    font-size: 1.2rem;
+  }
+
+  .form {
+    padding: 1.5rem;
+  }
+
+  .wishlist-item {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .item-content {
+    width: 100%;
+    padding: 0.75rem;
+  }
+
+  .remove-btn {
+    align-self: stretch;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    margin-top: 0;
+  }
+
+  .radio-group {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .radio-option {
+    font-size: 1.2rem;
+  }
+
+  .slider-label-left,
+  .slider-label-right {
+    font-size: 0.75rem;
+  }
+
+  .rating-message {
+    font-size: 0.95rem;
+    padding: 0.4rem;
+  }
+
+  .submit-btn {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .form-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .slider-label-left,
+  .slider-label-right {
+    font-size: 0.7rem;
+  }
+
+  .item-content {
+    padding: 0.75rem;
+  }
+
+  .rating-message {
+    font-size: 0.85rem;
+  }
 }
 </style>
