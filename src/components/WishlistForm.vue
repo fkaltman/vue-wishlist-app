@@ -26,10 +26,10 @@ const removeItem = (index) => {
 
 // Get kid-friendly rating label
 const getRatingLabel = (rating) => {
-  if (rating <= 4) return "🍌🍌 Yeah, I'd like this"
-  if (rating <= 7) return '🍌🍌🍌 Really want this!'
-  if (rating <= 9) return '🍌🍌 REALLY REALLY want this! 🍌🍌'
-  return '🍌🍌🍌 I HAVE TO HAVE THIS THING!! 🍌🍌🍌'
+  if (rating <= 4) return "🍌 Yeah, I'd like this"
+  if (rating <= 7) return '🍌 Really want this! 🍌'
+  if (rating <= 9) return '🍌🍌 REALLY REALLY want this!'
+  return '🍌🍌 I HAVE TO HAVE THIS THING!! 🍌🍌'
 }
 
 // Submit form to Formspree
@@ -90,9 +90,14 @@ const submitWishlist = async () => {
   <div class="wishlist-form">
     <div class="form-header">
       <img class="smithmas-logo" src="../assets/big_santa_banana.png" alt="Smithmas Banana Logo" />
-      <h1>Smithmas Wishlist</h1>
+      <div class="header-text">
+        <div class="header-line-1">Smithmas</div>
+        <div class="header-line-2">Wishlist</div>
+      </div>
     </div>
-    <p class="altmans">Hey!...The Altmans want some ideas of what you want for Christmas</p>
+    <p class="altmans">
+      The Altmans want some ideas of&nbsp;what&nbsp;you&nbsp;might&nbsp;like&nbsp;for&nbsp;Christmas
+    </p>
 
     <form @submit.prevent="submitWishlist" class="form">
       <div class="form-group">
@@ -110,7 +115,7 @@ const submitWishlist = async () => {
       </div>
 
       <div class="wishlist-section">
-        <h3>Add item descriptions or website URLs below</h3>
+        <h3 class="add-items-blurb">Add items, descriptions or URLs below</h3>
         <div v-for="(wishItem, index) in wishlistItems" :key="index" class="wishlist-item">
           <div class="item-content">
             <input
@@ -120,9 +125,9 @@ const submitWishlist = async () => {
               class="item-input"
             />
             <div class="rating-control">
-              <label class="rating-label">How much do you want it?</label>
+              <label class="rating-label">How interested are you in that item?</label>
               <div class="slider-container">
-                <span class="slider-label-left">🍌 Meh</span>
+                <span class="slider-label-left">🍌</span>
                 <input
                   type="range"
                   v-model="wishlistItems[index].rating"
@@ -130,7 +135,7 @@ const submitWishlist = async () => {
                   max="10"
                   class="rating-slider"
                 />
-                <span class="slider-label-right">🍌🍌🍌🍌 NEED IT!</span>
+                <span class="slider-label-right">🍌🍌🍌🍌</span>
               </div>
               <div class="rating-message">{{ getRatingLabel(wishlistItems[index].rating) }}</div>
             </div>
@@ -185,7 +190,7 @@ const submitWishlist = async () => {
 .form-header {
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
+  /* margin-bottom: 2rem; */
 }
 
 .smithmas-logo {
@@ -216,6 +221,20 @@ const submitWishlist = async () => {
   100% {
     transform: rotate(0deg);
   }
+}
+
+.header-text {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.header-line-1,
+.header-line-2 {
+  color: #c41e3a;
+  font-size: 2.3rem;
+  font-weight: 400;
 }
 
 .form-header h1 {
@@ -511,17 +530,29 @@ const submitWishlist = async () => {
   }
 
   .form-header {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .header-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.1;
+  }
+
+  .header-line-1,
+  .header-line-2 {
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #c41e3a;
   }
 
   .smithmas-logo {
-    margin: 0 0 1rem 0;
+    margin: 0;
     width: 50px;
-  }
-
-  .form-header h1 {
-    font-size: 1.8rem;
   }
 
   .which-smith {
@@ -570,6 +601,11 @@ const submitWishlist = async () => {
 
   .submit-btn {
     font-size: 1.1rem;
+  }
+
+  .altmans {
+    font-size: 0.9rem;
+    margin-top: 1rem;
   }
 }
 
