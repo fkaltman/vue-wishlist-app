@@ -3,7 +3,6 @@ import { ref } from 'vue'
 
 const name = ref('')
 const wishlistItems = ref(['', '', ''])
-const email = ref('')
 const isSubmitting = ref(false)
 const submitStatus = ref(null) // 'success', 'error', or null
 
@@ -47,7 +46,6 @@ const submitWishlist = async () => {
       },
       body: JSON.stringify({
         name: name.value,
-        email: email.value,
         wishlist: filledItems,
         submittedAt: new Date().toISOString(),
       }),
@@ -57,7 +55,6 @@ const submitWishlist = async () => {
       submitStatus.value = 'success'
       // Reset form
       name.value = ''
-      email.value = ''
       wishlistItems.value = ['', '', '']
     } else {
       submitStatus.value = 'error'
@@ -83,11 +80,6 @@ const submitWishlist = async () => {
       <div class="form-group">
         <label for="name">Your Name *</label>
         <input id="name" v-model="name" type="text" placeholder="Enter your name" required />
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email (optional)</label>
-        <input id="email" v-model="email" type="email" placeholder="your.email@example.com" />
       </div>
 
       <div class="wishlist-section">
@@ -178,7 +170,8 @@ const submitWishlist = async () => {
 
 .form-header h1 {
   color: #c41e3a;
-  font-size: 2.5rem;
+  font-size: 2.3rem;
+  font-weight: 400;
   margin-bottom: 0.5rem;
 }
 
