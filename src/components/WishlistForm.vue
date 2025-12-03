@@ -27,10 +27,10 @@ const removeItem = (index) => {
 
 // Get kid-friendly rating label
 const getRatingLabel = (rating) => {
-  if (rating <= 4) return "🍌 Yeah, I'd like this"
-  if (rating <= 7) return '🍌 Really want this! 🍌'
+  if (rating <= 4) return "Yeah, I'd like this"
+  if (rating <= 7) return '🍌 Really want this!'
   if (rating <= 9) return '🍌🍌 REALLY REALLY want this!'
-  return '🍌🍌 I HAVE TO HAVE THIS THING!! 🍌🍌'
+  return '🍌🍌🍌 I HAVE TO HAVE THIS THING!!'
 }
 
 // Submit form to Formspree
@@ -99,7 +99,8 @@ const submitWishlist = async () => {
       </div>
     </div>
     <p class="altmans">
-      The Altmans want some ideas of&nbsp;what&nbsp;you&nbsp;might&nbsp;like&nbsp;for&nbsp;Christmas</p>
+      The Altmans want some ideas of&nbsp;what&nbsp;you&nbsp;might&nbsp;like&nbsp;for&nbsp;Christmas
+    </p>
 
     <form @submit.prevent="submitWishlist" class="form">
       <div class="form-group">
@@ -137,7 +138,7 @@ const submitWishlist = async () => {
                   max="10"
                   class="rating-slider"
                 />
-                <span class="slider-label-right">🍌🍌🍌🍌</span>
+                <span class="slider-label-right">🍌🍌🍌</span>
               </div>
               <div class="rating-message">{{ getRatingLabel(wishlistItems[index].rating) }}</div>
             </div>
@@ -145,10 +146,10 @@ const submitWishlist = async () => {
           <button
             type="button"
             @click="removeItem(index)"
-            class="remove-btn"
+            class="remove-link"
             :disabled="wishlistItems.length === 1"
           >
-            ✕
+            remove item
           </button>
         </div>
 
@@ -189,7 +190,7 @@ const submitWishlist = async () => {
     <p class="fine-print">
       <sup>*</sup>Submissions will be accepted until December 15th, 2025. Extreme interest in an
       item does not insure receipt. Item prices will factor into the quantity of gifts. Limit 10
-      items per submission. Multiple submissions encouraged.<br>See stores for details. ...jk.
+      items per submission. Multiple submissions encouraged.<br />See stores for details. ...jk.
     </p>
   </div>
 </template>
@@ -248,7 +249,8 @@ const submitWishlist = async () => {
 .header-line-2 {
   color: #c41e3a;
   font-size: 2.3rem;
-  font-weight: 400;
+  font-weight: 700;
+  font-family: 'Mountains of Christmas', cursive;
 }
 
 .form-header h1 {
@@ -360,13 +362,14 @@ const submitWishlist = async () => {
 
 .wishlist-item {
   display: flex;
+  flex-direction: column;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .item-content {
-  flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -412,11 +415,11 @@ const submitWishlist = async () => {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  padding: 0.75rem 0;
 }
-
 .slider-label-left,
 .slider-label-right {
-  font-size: 0.85rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: #666;
   white-space: nowrap;
@@ -459,29 +462,30 @@ const submitWishlist = async () => {
   font-size: 1.1rem;
   text-align: center;
   padding: 0.5rem;
-  background: #fff3f3;
+  background: #d4bde0ff;
   border-radius: 8px;
   border: 2px solid #ffe0e0;
 }
 
-.remove-btn {
-  padding: 0.5rem 0.5rem;
-  margin-top: 0.3rem;
-  background: #c51313ff;
-  color: white;
+.remove-link {
+  background: none;
   border: none;
-  border-radius: 8px;
+  color: #c51313ff;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  padding: 0.25rem 0;
+  margin: 0;
+  text-align: center;
+  transition: color 0.3s;
 }
 
-.remove-btn:hover:not(:disabled) {
-  background: #9b1830;
+.remove-link:hover:not(:disabled) {
+  color: #9b1830;
 }
 
-.remove-btn:disabled {
-  background: #ccc;
+.remove-link:disabled {
+  color: #ccc;
   cursor: not-allowed;
 }
 
@@ -522,7 +526,7 @@ const submitWishlist = async () => {
 }
 
 .submit-btn:hover:not(:disabled) {
-  background: 9b1830#;
+  background: #9b1830;
 }
 
 .submit-btn:disabled {
@@ -579,9 +583,10 @@ const submitWishlist = async () => {
 
   .header-line-1,
   .header-line-2 {
-    font-size: 1.8rem;
-    font-weight: 400;
-    color: #c41e3a;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #a61ec4ff;
+    font-family: 'Mountains of Christmas', cursive;
   }
 
   .smithmas-logo {
@@ -597,21 +602,13 @@ const submitWishlist = async () => {
     padding: 1.5rem;
   }
 
-  .wishlist-item {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
   .item-content {
     width: 100%;
     padding: 0.75rem;
   }
 
-  .remove-btn {
-    align-self: stretch;
-    padding: 0.75rem;
-    font-size: 0.9rem;
-    margin-top: 0;
+  .remove-link {
+    font-size: 0.85rem;
   }
 
   .radio-group {
@@ -623,9 +620,19 @@ const submitWishlist = async () => {
     font-size: 1.2rem;
   }
 
-  .slider-label-left,
-  .slider-label-right {
-    font-size: 0.75rem;
+  .rating-slider {
+    height: 12px;
+    padding: 8px 0;
+  }
+
+  .rating-slider::-webkit-slider-thumb {
+    width: 28px;
+    height: 28px;
+  }
+
+  .rating-slider::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
   }
 
   .rating-message {
@@ -646,11 +653,6 @@ const submitWishlist = async () => {
 @media (max-width: 400px) {
   .form-header h1 {
     font-size: 1.5rem;
-  }
-
-  .slider-label-left,
-  .slider-label-right {
-    font-size: 0.7rem;
   }
 
   .item-content {
