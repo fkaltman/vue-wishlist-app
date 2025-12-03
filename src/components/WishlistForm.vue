@@ -2,14 +2,18 @@
 import { ref } from 'vue'
 
 const name = ref('')
-const wishlistItems = ref(['', '', ''])
+const wishlistItems = ref([
+  { item: '', rating: 5 },
+  { item: '', rating: 5 },
+  { item: '', rating: 5 },
+])
 const isSubmitting = ref(false)
 const submitStatus = ref(null) // 'success', 'error', or null
 
 // Add a new wishlist item field
 const addItem = () => {
   if (wishlistItems.value.length < 10) {
-    wishlistItems.value.push('')
+    wishlistItems.value.push({ item: '', rating: 5 })
   }
 }
 
@@ -20,6 +24,15 @@ const removeItem = (index) => {
   }
 }
 
+// Get kid-friendly rating label
+const getRatingLabel = (rating) => {
+  if (rating <= 3) return "🍌 Meh, it's okay"
+  if (rating <= 5) return "🍌🍌 Yeah, I'd like this"
+  if (rating <= 7) return '🍌🍌🍌 Really want this!'
+  if (rating <= 9) return '🍌🍌 REALLY REALLY want this! 🍌🍌'
+  return '🍌🍌🍌 I HAVE TO HAVE THIS THING!! 🍌🍌🍌'
+}
+
 // Submit form to Formspree
 const submitWishlist = async () => {
   if (!name.value.trim()) {
@@ -27,7 +40,9 @@ const submitWishlist = async () => {
     return
   }
 
-  const filledItems = wishlistItems.value.filter((item) => item.trim())
+  const filledItems = wishlistItems.value
+    .filter((item) => item.item.trim())
+    .map((item) => `${item.item} (Rating: ${item.rating}/10)`)
   if (filledItems.length === 0) {
     alert('Please add at least one item to your wishlist!')
     return
@@ -55,7 +70,11 @@ const submitWishlist = async () => {
       submitStatus.value = 'success'
       // Reset form
       name.value = ''
-      wishlistItems.value = ['', '', '']
+      wishlistItems.value = [
+        { item: '', rating: 5 },
+        { item: '', rating: 5 },
+        { item: '', rating: 5 },
+      ]
     } else {
       submitStatus.value = 'error'
     }
@@ -71,26 +90,52 @@ const submitWishlist = async () => {
 <template>
   <div class="wishlist-form">
     <div class="form-header">
-    <img class="smithmas-logo" src="../assets/big_santa_banana.png" alt="Smithmas Banana Logo">
+      <img class="smithmas-logo" src="../assets/big_santa_banana.png" alt="Smithmas Banana Logo" />
       <h1>Smithmas Wishlist</h1>
-      <p></p>
     </div>
+    <p class="altmans">Hey!...The Altmans want some ideas of what you want for Christmas</p>
 
     <form @submit.prevent="submitWishlist" class="form">
       <div class="form-group">
-        <label for="name">Your Name *</label>
-        <input id="name" v-model="name" type="text" placeholder="Enter your name" required />
+        <label class="which-smith">Which Smith are you? *</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" v-model="name" value="Oliver" required />
+            <span>Oliver</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" v-model="name" value="Henry" required />
+            <span>Henry</span>
+          </label>
+        </div>
       </div>
 
       <div class="wishlist-section">
-        <h3>My Wishlist</h3>
-        <div v-for="(item, index) in wishlistItems" :key="index" class="wishlist-item">
-          <input
-            v-model="wishlistItems[index]"
-            type="text"
-            :placeholder="`Item ${index + 1}`"
-            class="item-input"
-          />
+        <h3>Add item descriptions or website URLs below</h3>
+        <div v-for="(wishItem, index) in wishlistItems" :key="index" class="wishlist-item">
+          <div class="item-content">
+            <input
+              v-model="wishlistItems[index].item"
+              type="text"
+              :placeholder="`Item ${index + 1}`"
+              class="item-input"
+            />
+            <div class="rating-control">
+              <label class="rating-label">How much do you want it?</label>
+              <div class="slider-container">
+                <span class="slider-label-left">🍌 Meh</span>
+                <input
+                  type="range"
+                  v-model="wishlistItems[index].rating"
+                  min="1"
+                  max="10"
+                  class="rating-slider"
+                />
+                <span class="slider-label-right">🍌🍌🍌🍌 NEED IT!</span>
+              </div>
+              <div class="rating-message">{{ getRatingLabel(wishlistItems[index].rating) }}</div>
+            </div>
+          </div>
           <button
             type="button"
             @click="removeItem(index)"
@@ -112,7 +157,7 @@ const submitWishlist = async () => {
       </div>
 
       <button type="submit" class="submit-btn" :disabled="isSubmitting">
-        {{ isSubmitting ? 'Sending...' : 'Submit Wishlist 🎅' }}
+        {{ isSubmitting ? 'Sending...' : 'Submit Wishlist' }}
       </button>
 
       <div v-if="submitStatus === 'success'" class="success-message">
@@ -123,6 +168,7 @@ const submitWishlist = async () => {
         ❌ Oops! Something went wrong. Please try again.
       </div>
     </form>
+    <p class="fine-print"><sup>*</sup>Submissions will be accepted until December 15th, 2025. Extreme interest in an item does not insure receipt. Item prices will factor into the quantity of gifts. Limit 10 items per submission. Multiple submissions encouraged. See stores for details. jk.</p>
   </div>
 </template>
 
@@ -148,7 +194,8 @@ const submitWishlist = async () => {
 }
 
 @keyframes waggle {
-  0%, 95% {
+  0%,
+  95% {
     transform: rotate(0deg);
   }
   96% {
@@ -178,6 +225,12 @@ const submitWishlist = async () => {
 .form-header p {
   color: #666;
   font-size: 1.1rem;
+}
+
+.which-smith {
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: #333;
 }
 
 .form {
@@ -212,11 +265,39 @@ const submitWishlist = async () => {
   border-color: #c41e3a;
 }
 
+.radio-group {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.radio-option input[type='radio'] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #c41e3a;
+}
+
+.radio-option:hover span {
+  color: #c41e3a;
+}
+
 .wishlist-section {
   margin: 2rem 0;
 }
 
 .wishlist-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
   color: #165b33;
   margin-bottom: 1rem;
 }
@@ -224,11 +305,29 @@ const submitWishlist = async () => {
 .wishlist-item {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+  align-items: flex-start;
+}
+
+.item-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f9f9f9;
+  border: 2px solid #e8e8e8;
+  border-radius: 12px;
+  transition: all 0.3s;
+}
+
+.item-content:hover {
+  background: #f5f5f5;
+  border-color: #d0d0d0;
 }
 
 .item-input {
-  flex: 1;
+  width: 100%;
   padding: 0.75rem;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
@@ -241,19 +340,88 @@ const submitWishlist = async () => {
   border-color: #165b33;
 }
 
+.rating-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rating-label {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.slider-label-left,
+.slider-label-right {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #666;
+  white-space: nowrap;
+}
+
+.rating-slider {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(to left, #ffd93d 50%, #6bcf7f 100%);
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+.rating-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #7d797dff;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.rating-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #c41e3a;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.rating-message {
+  font-weight: 500;
+  color: #3b3839ff;
+  font-size: 1.1rem;
+  text-align: center;
+  padding: 0.5rem;
+  background: #fff3f3;
+  border-radius: 8px;
+  border: 2px solid #ffe0e0;
+}
+
 .remove-btn {
-  padding: 0.5rem 1rem;
-  background: #ff4444;
+  padding: 0.5rem 0.5rem;
+  margin-top: 0.3rem;
+  background: #c51313ff;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1rem;
   transition: background-color 0.3s;
 }
 
 .remove-btn:hover:not(:disabled) {
-  background: #cc0000;
+  background: #9b1830;
 }
 
 .remove-btn:disabled {
@@ -298,7 +466,7 @@ const submitWishlist = async () => {
 }
 
 .submit-btn:hover:not(:disabled) {
-  background: #9b1830;
+  background: 9b1830#;
 }
 
 .submit-btn:disabled {
@@ -323,5 +491,12 @@ const submitWishlist = async () => {
 .error-message {
   background: #f8d7da;
   color: #721c24;
+}
+
+.fine-print, .altmans {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: #666;
+  text-align: center;
 }
 </style>
