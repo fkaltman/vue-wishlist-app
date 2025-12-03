@@ -118,7 +118,7 @@ const submitWishlist = async () => {
       </div>
 
       <div class="wishlist-section">
-        <h3 class="add-items-blurb">Add items, descriptions or URLs below</h3>
+        <h3 class="add-items-blurb">Add item info or URLs below</h3>
         <div v-for="(wishItem, index) in wishlistItems" :key="index" class="wishlist-item">
           <div class="item-content">
             <input
