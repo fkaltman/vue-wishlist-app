@@ -7,6 +7,7 @@ const wishlistItems = ref([
   { item: '', rating: 5 },
   { item: '', rating: 5 },
 ])
+const notes = ref('')
 const isSubmitting = ref(false)
 const submitStatus = ref(null) // 'success', 'error', or null
 
@@ -61,6 +62,7 @@ const submitWishlist = async () => {
       body: JSON.stringify({
         name: name.value,
         wishlist: filledItems,
+        notes: notes.value,
         submittedAt: new Date().toISOString(),
       }),
     })
@@ -69,6 +71,7 @@ const submitWishlist = async () => {
       submitStatus.value = 'success'
       // Reset form
       name.value = ''
+      notes.value = ''
       wishlistItems.value = [
         { item: '', rating: 5 },
         { item: '', rating: 5 },
@@ -96,8 +99,7 @@ const submitWishlist = async () => {
       </div>
     </div>
     <p class="altmans">
-      The Altmans want some ideas of&nbsp;what&nbsp;you&nbsp;might&nbsp;like&nbsp;for&nbsp;Christmas
-    </p>
+      The Altmans want some ideas of&nbsp;what&nbsp;you&nbsp;might&nbsp;like&nbsp;for&nbsp;Christmas</p>
 
     <form @submit.prevent="submitWishlist" class="form">
       <div class="form-group">
@@ -160,6 +162,18 @@ const submitWishlist = async () => {
         </button>
       </div>
 
+      <div class="form-group notes-section">
+        <label for="notes">Additional Notes (optional)</label>
+        <textarea
+          id="notes"
+          v-model="notes"
+          placeholder="Any additional information, preferences, or comments..."
+          rows="4"
+          class="notes-input"
+        ></textarea>
+      </div>
+      <p class="altmans">** Cash is also an option **</p>
+
       <button type="submit" class="submit-btn" :disabled="isSubmitting">
         {{ isSubmitting ? 'Sending...' : 'Submit Wishlist' }}
       </button>
@@ -175,7 +189,7 @@ const submitWishlist = async () => {
     <p class="fine-print">
       <sup>*</sup>Submissions will be accepted until December 15th, 2025. Extreme interest in an
       item does not insure receipt. Item prices will factor into the quantity of gifts. Limit 10
-      items per submission. Multiple submissions encouraged. See stores for details. jk.
+      items per submission. Multiple submissions encouraged. See stores for details. ...jk.
     </p>
   </div>
 </template>
@@ -285,6 +299,26 @@ const submitWishlist = async () => {
 .form-group input:focus {
   outline: none;
   border-color: #c41e3a;
+}
+
+.notes-section {
+  margin-top: 2rem;
+}
+
+.notes-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+
+.notes-input:focus {
+  outline: none;
+  border-color: #165b33;
 }
 
 .radio-group {
