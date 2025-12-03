@@ -74,8 +74,9 @@ const submitWishlist = async () => {
 <template>
   <div class="wishlist-form">
     <div class="form-header">
-      <h1>Smithmas Christmas Wishlist</h1>
-      <p>Tell me what you'd like for Christmas!</p>
+    <img class="smithmas-logo" src="../assets/big_santa_banana.png" alt="Smithmas Banana Logo">
+      <h1>Smithmas Wishlist</h1>
+      <p></p>
     </div>
 
     <form @submit.prevent="submitWishlist" class="form">
@@ -141,8 +142,38 @@ const submitWishlist = async () => {
 }
 
 .form-header {
-  text-align: center;
+  display: flex;
+  justify-content: center;
   margin-bottom: 2rem;
+}
+
+.smithmas-logo {
+  display: block;
+  margin: 0 20px 1rem;
+  width: 60px;
+  height: auto;
+  animation: waggle 10s ease-in-out infinite;
+}
+
+@keyframes waggle {
+  0%, 95% {
+    transform: rotate(0deg);
+  }
+  96% {
+    transform: rotate(-15deg);
+  }
+  97% {
+    transform: rotate(15deg);
+  }
+  98% {
+    transform: rotate(-10deg);
+  }
+  99% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 .form-header h1 {
