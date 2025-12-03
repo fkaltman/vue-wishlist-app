@@ -189,7 +189,7 @@ const submitWishlist = async () => {
     <p class="fine-print">
       <sup>*</sup>Submissions will be accepted until December 15th, 2025. Extreme interest in an
       item does not insure receipt. Item prices will factor into the quantity of gifts. Limit 10
-      items per submission. Multiple submissions encouraged. See stores for details. ...jk.
+      items per submission. Multiple submissions encouraged.<br>See stores for details. ...jk.
     </p>
   </div>
 </template>
