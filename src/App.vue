@@ -1,10 +1,12 @@
 <script setup>
+import StayTuned from './components/StayTuned.vue';
 import WishlistForm from './components/WishlistForm.vue'
 </script>
 
 <template>
   <div class="app-container">
-    <WishlistForm />
+    <!-- <WishlistForm /> -->
+     <StayTuned />
   </div>
 </template>
 
