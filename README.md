@@ -1,6 +1,9 @@
-# vue-wishlist-app
+<img src="https://i.imgur.com/eDHf5mx.png" width="50%" />
 
-This template should help get you started developing with Vue 3 in Vite.
+### A wee, banana-themed app to spread Christmas cheer by just straight up asking what these cousins want for Christmas.
+Made with Vue and deployed with Vercel, this tiny SPA employs Formspree to send the recipient the entries because a DB is just not necessary for this size operation. Let's keep it simple.
+
+
 
 ## Recommended IDE Setup
 
