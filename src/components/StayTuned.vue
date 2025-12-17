@@ -1,6 +1,6 @@
 <template>
   <div class="banner">
-    <h1>The Smithmas Wishlist is closed for the season, see you again next year</h1>
+    <h1>The Smithmas Wishlist is closed for the season, see you again next year.</h1>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 .banner {
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin-top: 20%;
   min-height: 100vh;
   padding: 2rem;
   text-align: center;
